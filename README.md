@@ -24,3 +24,22 @@ samples, guidance on mobile development, and a full API reference.
 https://github.com/user-attachments/assets/5c3572ea-e13c-4a08-ba1c-d25f5f7d61f3
 
 https://github.com/user-attachments/assets/832d9cc7-ac27-494f-bcc5-d1ba2a5fd9f2
+
+I have built a flutter notes app with the following features 
+
+- **Login/Signup UI** using Firebase Auth.
+- A **home screen** showing all of the user’s notes.
+- Ability to **add**, **edit**, and **delete** notes.
+- USED and Enabled the CRUD Operations well 
+- Real-time updates reflected instantly when a note is changed.
+  
+- User-specific data isolation: users should see **only their own notes**. I have tackled this feature with a uique id of user .
+
+
+- Firebase Authentication (email/password or Google Sign-In)
+- Firestore-based CRUD operations
+- Timestamps for each note (created/last modified)
+- USED the Indexes options in Firebase to display timestamps 
+- Note ordering (e.g., most recent on top)
+- Responsive UI (works on multiple screen sizes)
+- Smooth UX with error handling and loading states
