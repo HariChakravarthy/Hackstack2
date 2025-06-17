@@ -43,3 +43,5 @@ I have built a flutter notes app with the following features
 - Note ordering (e.g., most recent on top)
 - Responsive UI (works on multiple screen sizes)
 - Smooth UX with error handling and loading states
+
+- build\app\outputs\flutter-apk\app-release.apk
