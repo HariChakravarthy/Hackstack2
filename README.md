@@ -45,3 +45,115 @@ I have built a flutter notes app with the following features
 - Smooth UX with error handling and loading states
 
 - build\app\outputs\flutter-apk\app-release.apk
+
+  Issues & Resolutions Report
+ Flutter Firebase Notes App
+Technologies Used: Flutter, Firebase (Firestore, Auth).
+1. Firestore Index Not Created
+Issue:
+While using .orderBy('createdAt', descending: true) in your query, Firestore threw an error like:
+
+"FAILED_PRECONDITION: The query requires an index."
+
+Root Cause:
+Firestore requires compound indexes when performing filtered and ordered queries.
+
+Resolution:
+The Firestore error provided a direct link to create the required index.
+
+Clicked the link → Confirmed the index creation.
+
+After 1–2 minutes, the app started working fine.
+
+2. Search Bar Not Filtering Data
+Issue:
+Search bar UI was present, but it didn’t actually filter the notes.
+
+Root Cause:
+The app was using StreamBuilder to directly show notesStream, but no search logic was applied on the stream data.
+
+Resolution:
+Implemented a TextEditingController to track search input.
+
+Used snapshot.data!.docs.where(...) to filter notes manually on fields like Title, Type, and Notes.
+
+Updated the ListView.builder to reflect filtered data.
+
+4. Notes Not Visible to Specific Users (Security Issue)
+Issue:
+All notes were visible to all users.
+
+Root Cause:
+Firestore queries didn’t filter by uid, and rules weren’t set properly.
+
+Resolution:
+While adding notes, uid was stored using:
+
+dart
+Copy
+Edit
+yourNotesInfoMap['uid'] = FirebaseAuth.instance.currentUser!.uid;
+Modified Firestore read query to:
+
+dart
+Copy
+Edit
+.where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+Updated Firestore Rules:
+
+js
+Copy
+Edit
+match /Notes/{noteId} {
+  allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
+}
+5. Edit Function Only Allowed Notes Field to be Updated
+Issue:
+During edit, only the note body (Notes) was updated — not Title or Type.
+Cause:
+existingTitle and existingType were not passed to the editing screen.
+Resolution:
+Passed existingTitle and existingType through Navigator:
+dart
+Copy
+Edit
+NotesPage(
+  isEditing: true,
+  noteId: ds["Id"],
+  existingText: ds["Notes"],
+  existingTitle: ds["Title"],
+  existingType: ds["Type"],
+)
+dart
+Copy
+Edit
+if (widget.isEditing && widget.existingTitle != null) {
+  titleController.text = widget.existingTitle!;
+  typeController.text = widget.existingType!;
+  notesController.text = widget.existingText!;
+}
+6. Initial Notes Missing Required Fields
+Issue:
+Old notes were missing Pinned, uid, or createdAt.
+Cause:
+Those fields were introduced later during development.
+
+Resolution:
+Deleted old notes from Firebase Console.
+
+Ensured new notes include all essential fields:
+
+Id
+
+Title
+
+Type
+
+Notes
+
+Pinned
+
+uid
+
+createdAt
+
