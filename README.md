@@ -157,3 +157,9 @@ uid
 
 createdAt
 
+
+## 📥 Download APK
+
+[Download APK](https://github.com/HariChakravarthy/Hackstack2/raw/master/release/app-release.apk)
+
+
